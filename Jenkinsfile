@@ -3,6 +3,9 @@ pipeline {
     parameters {
         string(name: 'TARGET_ENV', defaultValue: 'DEV', description: 'Environment')
     }
+    options {
+        copyArtifactPermission('ReleaseJob');
+    }
     tools {nodejs "node"}
     stages {
         stage('Build') {
@@ -27,17 +30,6 @@ pipeline {
                        [ $class: "FileParameterValue", name: "test-report.xml", file: new FileParameterValue.FileItemImpl(new File(propertiesFilePath)) ]
                    ]
                }
-            }
-        }
-
-        stage('Copy Archive') {
-            steps {
-                script {
-                    step ([$class: 'CopyArtifact',
-                        projectName: 'ReleaseJob',
-                        filter: "reports/test-report.xml",
-                        target: 'DownloadedFile']);
-                }
             }
         }
     }
