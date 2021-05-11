@@ -20,9 +20,11 @@ pipeline {
         stage('Deploy') {
             steps {
                script {
+                   def propertiesFilePath = "${env.WORKSPACE}/reports/test-report.xml"
                    build job: 'ReleaseJob',
                    parameters: [
                        [ $class: 'StringParameterValue', name: 'FROM_BUILD', value: "${BUILD_NUMBER}" ]
+                       [ $class: 'FileParameterValue', name: 'test-report.xml', file: new FileParameterValue.FileItemImpl(new File(propertiesFilePath)) ]
                    ]
                }
             }
