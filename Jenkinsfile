@@ -21,16 +21,15 @@ pipeline {
         stage('Deploy') {
             steps {
                script {
-                   def propertiesFilePath = "${env.WORKSPACE}/sampleFile.zip"
-                   build job: 'ReleaseJob',
+                   build job: 'ReleaseJob', // Adding parameter to releaseJob
                    parameters: [
-                       [ $class: 'StringParameterValue', name: 'FROM_BUILD', value: "${BUILD_NUMBER}" ],
-                       [ $class: "FileParameterValue", name: "sample", file: new FileParameterValue.FileItemImpl(new File(propertiesFilePath)) ]
+                       [ $class: 'StringParameterValue', name: 'FROM_BUILD', value: "${BUILD_NUMBER}" ]
                    ],
                    propagate: false
                }
             }
         }
     }
+    
 
 }
