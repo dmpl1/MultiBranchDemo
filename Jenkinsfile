@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    parameters {
+        string(name: 'TARGET_ENV', defaultValue: 'DEV', description: 'Environment')
+    }
     tools {nodejs "node"}
     stages {
         stage('Build') {
@@ -9,15 +11,20 @@ pipeline {
             }
         }
 
-        stage('test') {
+        stage('Test') {
             steps {
                 bat 'npm run test'
             }
         }
         
-        stage('sonar') {
+        stage('Deploy') {
             steps {
-                bat 'npm run sonar'
+               script {
+                   build job: 'ReleaseJob',
+                   parameters: [
+                       [ $class: 'stringParameterValue', name: 'FROM_BUILD', value: "${BUILD_NUMBER}" ]
+                   ]
+               }
             }
         }
     }
