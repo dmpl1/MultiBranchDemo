@@ -41,3 +41,48 @@ pipeline {
     }
 
 }
+
+/* Pipeline script for ReleaseJob Project Added Below for Reference */
+// NOTE: Uncheck Groovy sandbox in Releasejob Project configuration, so that pipeline can be run using administrative rights and file transfer can happen, 
+// Add plugin CopyArtifact for artifact copy 
+// If u face errors on administrative priviledges, then go to manage-Jenkins > In-process-script-approval, add below lines and approve it 
+/* new hudson.model.FileParameterValue$FileItemImpl java.io.File
+new java.io.File java.lang.String
+*/
+
+/*
+
+pipeline {
+    agent any
+    
+    options {
+        copyArtifactPermission('*');
+    }
+    parameters {
+        string(name: 'FROM_BUILD', defaultValue: '', description: 'Build Source')
+    }
+    
+    stages {    
+    	stage('Deploy') {
+    		steps {
+    		   echo "deploying from source ${params.FROM_BUILD}" 
+    		}
+    	}
+    	
+    	stage('Copy Archive') {
+            steps {
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'ConnectDemo/master',
+                        filter: "*.zip",
+                        target: 'SampleFolder']);
+                }
+            }
+        }
+    	
+    	
+    }
+    
+} 
+
+*/
