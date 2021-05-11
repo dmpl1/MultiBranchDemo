@@ -30,6 +30,11 @@ pipeline {
             }
         }
     }
-    
+
+    post {
+        always { // Adding file in artifacts so that can be passed to other projects
+            archiveArtifacts artifacts: 'sampleFile.zip', onlyIfSuccessful: true
+        }
+    }
 
 }
