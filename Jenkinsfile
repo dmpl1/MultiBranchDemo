@@ -37,7 +37,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts: 'sampleFile.zip'
+            archiveArtifacts artifacts: 'sampleFile.zip', onlyIfSuccessful: true
         }
     }
 }
