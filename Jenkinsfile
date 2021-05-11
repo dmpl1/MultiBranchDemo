@@ -24,7 +24,7 @@ pipeline {
                    build job: 'ReleaseJob',
                    parameters: [
                        [ $class: 'StringParameterValue', name: 'FROM_BUILD', value: "${BUILD_NUMBER}" ],
-                       [ $class: "FileParameterValue", name: "test-report.xml", file: new FileParameterValue.FileItemImpl(new File(propertiesFilePath)) target:"downloadFile"]
+                       [ $class: "FileParameterValue", name: "test-report.xml", file: new FileParameterValue.FileItemImpl(new File(propertiesFilePath)), target:"downloadFile"]
                    ]
                }
             }
