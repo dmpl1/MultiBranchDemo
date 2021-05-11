@@ -3,9 +3,7 @@ pipeline {
     parameters {
         string(name: 'TARGET_ENV', defaultValue: 'DEV', description: 'Environment')
     }
-    options {
-        copyArtifactPermission('ReleaseJob');
-    }
+    
     tools {nodejs "node"}
     stages {
         stage('Build') {
@@ -23,11 +21,11 @@ pipeline {
         stage('Deploy') {
             steps {
                script {
-                   def propertiesFilePath = "${env.WORKSPACE}/coverage/lcov.info"
+                   def propertiesFilePath = "${env.WORKSPACE}/sampleFile.zip"
                    build job: 'ReleaseJob',
                    parameters: [
                        [ $class: 'StringParameterValue', name: 'FROM_BUILD', value: "${BUILD_NUMBER}" ],
-                       [ $class: "FileParameterValue", name: "coverage", file: new FileParameterValue.FileItemImpl(new File(propertiesFilePath)) ]
+                       [ $class: "FileParameterValue", name: "sample", file: new FileParameterValue.FileItemImpl(new File(propertiesFilePath)) ]
                    ],
                    propagate: false
                }
@@ -35,9 +33,4 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            archiveArtifacts artifacts: 'sampleFile.zip', onlyIfSuccessful: true
-        }
-    }
 }
