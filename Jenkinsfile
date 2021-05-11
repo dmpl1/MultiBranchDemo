@@ -34,4 +34,10 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'sampleFile.zip', onlyIfSuccessful: true
+        }
+    }
 }
