@@ -3,6 +3,9 @@ pipeline {
     parameters {
         string(name: 'TARGET_ENV', defaultValue: 'DEV', description: 'Environment')
     }
+    options { // Providing permission to releaseJob Project to copy artifacts
+        copyArtifactPermission('ReleaseJob');
+    }
     
     tools {nodejs "node"}
     stages {
@@ -25,7 +28,7 @@ pipeline {
                    parameters: [
                        [ $class: 'StringParameterValue', name: 'FROM_BUILD', value: "${BUILD_NUMBER}" ]
                    ],
-                   propagate: false
+                   propagate: false // pass pipeline if fail for ReleaseJob too
                }
             }
         }
